@@ -1,0 +1,40 @@
+{
+   "metadata":{
+      "uuid":"145",
+      "section":"Electronics"
+   },
+   "payload":{
+      "userid":"123",
+      "email_id":"smith.kevin@gmail.com",
+      "contact":"81465112",
+      "session_time":"2.3",
+      "legacy_account":"nan",
+      "membership_status":"active",
+      "is_cart_empty":"False",
+      "sys_type":"PC windows xyz",
+      "menuitem":[
+         {
+            "value":"New",
+            "onclick":"CreateNewDoc()"
+         },
+         {
+            "value":"Open",
+            "onclick":"OpenDoc()"
+         },
+         {
+            "value":"Close",
+            "onclick":"CloseDoc()"
+         }
+      ],
+      "text":{
+         "data":"Click Here",
+         "size":36,
+         "style":"bold",
+         "name":"text1",
+         "hOffset":250,
+         "vOffset":100,
+         "alignment":"center",
+         "onMouseUp":"sun1.opacity = (sun1.opacity / 100) * 90;"
+      }
+   }
+}

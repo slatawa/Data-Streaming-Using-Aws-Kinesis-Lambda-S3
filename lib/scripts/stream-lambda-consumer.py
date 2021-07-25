@@ -29,6 +29,7 @@ def check_payload(payload, tag):
 
 
 def lambda_handler(event, context):
+    excp_cnt = 0
     s3 = boto3.resource('s3')
 
     total_records = len(event['Records'])
@@ -36,14 +37,16 @@ def lambda_handler(event, context):
 
     for record in event['Records']:
         try:
-            # Kinesis data is base64 encoded so decode here, convert bytes to string
+
             payload = base64.b64decode(record['kinesis']['data']).decode("utf-8")
             l_json = json.loads(payload)
-            l_creationTS = datetime.datetime.fromtimestamp(float(l_json['creationTS']))
-            print(l_json)
+            l_creation = datetime.datetime.fromtimestamp(float(calendar.timegm(datetime.datetime.utcnow().timetuple())))
 
-            l_path_wo_hour = str(l_creationTS.year) + '/' + str(l_creationTS.strftime('%m')) + '/' + str(
-                l_creationTS.strftime('%d')) + '/'
+            print(l_json)
+            print(l_creation)
+
+            l_path_wo_hour = str(l_creation.year) + '/' + str(l_creation.strftime('%m')) + '/' + str(
+                l_creation.strftime('%d')) + '/'
 
             # fetch parameters
             l_raw_bucket = os.environ.get('databucket')
@@ -57,19 +60,19 @@ def lambda_handler(event, context):
                 excp_cnt = excp_cnt + 1
                 PrintException()
                 s3.Bucket(l_exception_bucket).put_object(Key='Kinesis/failed_meesages/' + l_path_wo_hour + 'payload_'
-                                                             + l_guid + '.json',
+                                                             + '.json',
                                                          Body=json.dumps(l_json))
                 # process next record
                 continue
 
             l_payload = l_json['payload']
+            l_metadata = l_json['metadata']
 
-            l_source = 'website-1'
+            l_source = l_metadata['section']
 
             s3.Bucket(l_raw_bucket).put_object(
-                Key='Kinesis/' + l_source + '/json/' + l_source + '_trade/' + l_assetClass + '/' + l_path_wo_hour + 'payload_' + l_guid + '.json',
-                Body=json.dumps(l_new_json))
-
+                Key='Kinesis/' + l_source + '/json/' + l_source + '_section/' + '/' + l_path_wo_hour + 'payload_' + '.json',
+                Body=json.dumps(l_payload))
 
         except Exception as e:
             excp_cnt = excp_cnt + 1
