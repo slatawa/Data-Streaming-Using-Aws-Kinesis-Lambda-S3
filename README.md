@@ -3,12 +3,12 @@ A production grade data pipeline that streams real time data of an online retail
 
 ### Project Description
 
-An online retailer company is interested in understanding `user shopping patterns` and build prediction 
+An online retailer is interested in understanding `user shopping patterns` and build prediction 
 models to show ads for products that the user would be interested to buy based on the model.
 
 To enable above prediction modelling it is required to build a `real-time` streaming pipeline
 which gets user events/data points captured by the retailer's website into AWS S3 data-lake. From
-where the prediction model code can pick up the data. As par tof this project we are only interested
+where the prediction model code can pick up the data. As par tof this project we are interested
 in building the live-stream pipeline to get this data onto data-lake.
 
 ### Data Description
