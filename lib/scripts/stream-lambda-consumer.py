@@ -2,12 +2,10 @@ import datetime
 import base64
 import json
 import boto3
-import re
 import os
 import sys
 import linecache
 import calendar
-import uuid
 
 
 def PrintException():
@@ -62,7 +60,6 @@ def lambda_handler(event, context):
                 s3.Bucket(l_exception_bucket).put_object(Key='Kinesis/failed_meesages/' + l_path_wo_hour + 'payload_'
                                                              + '.json',
                                                          Body=json.dumps(l_json))
-                # process next record
                 continue
 
             l_payload = l_json['payload']
@@ -76,7 +73,6 @@ def lambda_handler(event, context):
 
         except Exception as e:
             excp_cnt = excp_cnt + 1
-            # print("error: %s" % str(e))
             PrintException()
             s3.Bucket(l_exception_bucket).put_object(
                 Key='Kinesis/failed_meesages/' + l_path_wo_hour + 'payload' + '.json',
